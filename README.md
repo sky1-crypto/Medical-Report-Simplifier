@@ -758,6 +758,57 @@ Maximum:
 
 ---
 
+# 🔗 Curl Requests
+
+## 1. Health Check
+
+```bash
+curl http://localhost:3000/api/health
+```
+
+Expected response:
+
+```json
+{
+  "status": "ok",
+  "service": "medical-report-simplifier"
+}
+```
+
+---
+
+## 2. Process Text Medical Report
+
+```bash
+curl -X POST http://localhost:3000/api/report/text -H "Content-Type: application/json" -d "{\"text\":\"My hemoglobin is 10.2 g/dL and it is marked as low. My WBC count is 11200 /uL and it is marked as high. My platelet count is 250000 /uL and it is normal.\"}"
+```
+
+---
+
+## 3. Process Image Medical Report
+
+```bash
+curl -X POST http://localhost:3000/api/report/image -F "file=@samples/sample-report.png"
+```
+
+The image endpoint accepts PNG and JPEG files up to 5 MB.
+
+---
+
+## 4. Test Invalid Input
+
+```bash
+curl -X POST http://localhost:3000/api/report/text -H "Content-Type: application/json" -d "{\"text\":\"Hello, this is a normal sentence with no medical test.\"}"
+```
+
+Expected response:
+
+```json
+{
+  "status": "unprocessed",
+  "reason": "No recognizable medical tests found"
+}
+```
 # 📤 Example Final Response
 
 ```json
